@@ -28,22 +28,40 @@ classes = {
 }
 
 class FileStorage:
-    """File-based persistent storage."""
+    """
+    public instance method that returns the
+    dictionary __objects.
+    """
     __file_path: str = 'file.json'
     __objects: dict = {}
 
     def all(self):
-        """returns dictionary objs"""
+        """
+        public instance method that returns the
+        dictionary __objects.
+        """
         return self.__objects
 
     def new(self, obj):
-        """sets obj with key as <obj class name>.id"""
+        """
+        public instance method that sets in __objects
+        the obj with key <obj class name>.id
+        Variables:
+        ----------
+        key [str] -- key format generated.
+        """
         if obj:
             key = f'{obj.__class__.__name__}.{obj.id}'
             self.__objects[key] = obj
 
     def save(self):
-        """saves objects to file in json format"""
+        """
+        public instance method that serializes __objects
+        to the JSON file (path: __file_path).
+        Variables:
+        ----------
+        new_dict [dict] -- keys and values to build JSON.
+        """
         new_dict = {}
         for k, v in self.__objects.items():
             new_dict[k] = v.to_dict().copy()
@@ -51,7 +69,10 @@ class FileStorage:
             json.dump(new_dict, file)
 
     def reload(self):
-        """deserialize json file only if __file_path exists"""
+        """
+        public instance method that deserializes a JSON
+        file to __objects.
+        """
         try:
             with open(self.__file_path, 'r') as file:
                 data = json.load(file)
