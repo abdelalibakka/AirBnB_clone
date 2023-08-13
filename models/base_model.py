@@ -39,7 +39,7 @@ class BaseModel:
     def save(self):
         """updated instance updated_at"""
         self.updated_at = datetime.now()
-        models.storage.new(self)
+        models.storage.save()
 
     def to_dict(self):
         """dict containing key value pairs"""
