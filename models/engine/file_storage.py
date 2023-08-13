@@ -57,8 +57,8 @@ class FileStorage:
                 data = json.load(file)
             for v in data.values():
                 class_name = v['__class__']
-                del v['__class__']
-                self.new(eval((class_name)(**v)))
+                if isinstance(class_name, str) and type(eval(class_name)) == type:
+                    self.new(eval(class_name)(**v))
         except FileNotFoundError:
             pass
 
