@@ -30,7 +30,7 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            models.storage.save()
+            models.storage.new(self)
 
     def __str__(self):
         """string rep of the class"""
@@ -39,7 +39,7 @@ class BaseModel:
     def save(self):
         """updated instance updated_at"""
         self.updated_at = datetime.now()
-        models.storage.new(self)
+        models.storage.save()
 
     def to_dict(self):
         """dict containing key value pairs"""
