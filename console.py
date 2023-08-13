@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+<<<<<<< HEAD
 """Entry point of command interpreter"""
 
 import cmd
@@ -143,6 +144,35 @@ class HBNBCommand(cmd.Cmd):
             return models.storage.all()[key]
         return False
 
+=======
+"""command interpreter cmd module"""
+
+import cmd
+import sys
+
+class HBNBCommand(cmd.Cmd):
+    """HBNB command class"""
+    prompt = '(hbnb) '
+
+    def do_EOF(self):
+        """Handles end of file"""
+        return True
+
+    def help_EOF(self):
+        """documentation for EOF"""
+        pass
+
+    def do_quit(self, arg):
+        '''<Quit> Command To Exit The Program'''
+        return sys.exit(1)
+
+    def help_quit(self):
+        """docs for quit syntax"""
+        print('quit to exit')
+
+    # shoercuts
+    # do_q = do_quit
+>>>>>>> db7cf2949b3646abb6e36b75be9fe6c86e788bb0
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
