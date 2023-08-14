@@ -2,6 +2,7 @@
 '''Method Command Interpreter'''
 import cmd
 import shlex
+import re
 import models
 from datetime import datetime
 from models.base_model import BaseModel
@@ -169,6 +170,50 @@ class HBNBCommand(cmd.Cmd):
            press enter an empty line
         '''
         pass
+
+    def get_objects(self, instance=''):
+        """Gets the elements created by the console
+        Args:
+            instance (str): The instance
+        Returns:
+            list: All instances if available.
+        """
+        objects = models.storage.all()
+
+        if instance:
+            keys = objects.keys()
+            return [str(val) for key, val in objects.items()
+                    if key.startswith(instance)]
+
+        return [str(val) for key, val in objects.items()]
+
+    def default(self, line):
+        """Retrieves all instances of a class by
+        using: <class name>.all().
+        """
+        if '.' in line:
+            splitted = re.split(r'\.|\(|\)', line)
+            class_name = splitted[0]
+            method_name = splitted[1]
+
+            if class_name in self.__classes:
+                if method_name == 'all':
+                    print(self.get_objects(class_name))
+                elif method_name == 'count':
+                    print(len(self.get_objects(class_name)))
+                elif method_name == 'show':
+                    class_id = splitted[2][1:-1]
+                    self.do_show(class_name + ' ' + class_id)
+                elif method_name == 'destroy':
+                    class_id = splitted[2][1:-1]
+                    self.do_destroy(class_name + ' ' + class_id)
+                elif method_name == 'update':
+                    n_splitted = splitted[2].split(",")
+                    class_id = n_splitted[0]
+                    update_key = n_splitted[1]
+                    update_value =  n_splitted[2]
+                    self.do_update(class_name + ' ' + class_id + ' '\
+                            + update_key + ' ' + update_value)
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
